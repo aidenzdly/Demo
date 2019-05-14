@@ -13,6 +13,10 @@ import numpy as np
 app = Flask(__name__)
 label = ['飞机', '汽车', '鸟', '猫', '鹿', '狗', '青蛙', '马', '船', '卡车']
 
+
+# 缺点：每次请求都需要加载一次模型，占用显存，浪费时间；
+# 改进：uwsgi网管会对全局load_model产生影响，尽可在本地或linux环境下正常全局加载；
+# 使用tf serving部署模型，在flask接口内在请求模型接口返回预测值，绕过了load_model及predict的过程。
 @app.route('/loadmodel',methods=['POST'])
 def loadmodel():
     # imgFiles = request.files['file']
